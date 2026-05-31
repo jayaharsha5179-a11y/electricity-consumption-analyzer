@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Energy Tips — EnergyIQ</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    .tip-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      transition: border-color 0.15s;
+    }
+    .tip-card:hover { border-color: var(--accent); }
+    .tip-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .tip-text { font-size: 0.9rem; color: var(--text2); line-height: 1.6; }
+    .tip-level-high   { border-left: 3px solid var(--red); }
+    .tip-level-medium { border-left: 3px solid var(--accent); }
+    .tip-level-low    { border-left: 3px solid var(--green); }
+    .tip-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      padding: 1px 7px;
+      border-radius: 999px;
+      margin-bottom: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-high   { background: rgba(239,68,68,0.15); color: var(--red); }
+    .badge-medium { background: rgba(245,197,24,0.15); color: var(--accent); }
+    .badge-low    { background: rgba(34,197,94,0.15);  color: var(--green); }
+    .general-tip {
+      background: var(--bg3);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.875rem;
+      color: var(--text2);
+      display: flex;
+      gap: 0.75rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <div class="logo"><span class="logo-icon">⚡</span><span class="logo-text">EnergyIQ</span></div>
+    <ul class="nav-links">
+      <li><a href="../index.html"   class="nav-link"><span class="nav-icon">◈</span> Dashboard</a></li>
+      <li><a href="appliances.html" class="nav-link"><span class="nav-icon">◉</span> Appliances</a></li>
+      <li><a href="billing.html"    class="nav-link"><span class="nav-icon">◎</span> Bill Calculator</a></li>
+      <li><a href="history.html"    class="nav-link"><span class="nav-icon">◌</span> History</a></li>
+      <li><a href="tips.html"       class="nav-link active"><span class="nav-icon">◍</span> Energy Tips</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" onclick="toggleTheme()">☀ / ☾</button>
+    </div>
+  </nav>
+
+  <header class="mobile-header">
+    <span class="logo-text">⚡ EnergyIQ</span>
+    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+  </header>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../index.html">◈ Dashboard</a>
+    <a href="appliances.html">◉ Appliances</a>
+    <a href="billing.html">◎ Bill Calculator</a>
+    <a href="history.html">◌ History</a>
+    <a href="tips.html">◍ Energy Tips</a>
+  </div>
+
+  <main class="main-content inner-page">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Energy Tips</h1>
+        <p class="page-subtitle">Personalised recommendations based on your appliances</p>
+      </div>
+    </div>
+
+    <!-- Carbon footprint card -->
+    <div class="stats-grid" style="margin-bottom:1.5rem;">
+      <div class="stat-card">
+        <div class="stat-label">Monthly CO₂</div>
+        <div class="stat-value" id="co2Val">0 <span class="stat-unit">kg</span></div>
+        <div class="stat-note">at 0.82 kg CO₂ per kWh (India avg)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Trees to offset</div>
+        <div class="stat-value" id="treesVal">0 <span class="stat-unit">trees/yr</span></div>
+        <div class="stat-note">1 tree absorbs ~21 kg CO₂/year</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">vs National Avg</div>
+        <div class="stat-value" id="vsAvgVal">—</div>
+        <div class="stat-note" id="vsAvgNote">Avg Indian household: ~90 kWh/month</div>
+      </div>
+    </div>
+
+    <!-- Personalised tips -->
+    <div class="table-card" style="margin-bottom:1.5rem;">
+      <h2 class="section-title" style="margin-bottom:1rem;">Your Personalised Tips</h2>
+      <div id="personalTips">
+        <div style="color:var(--text3); font-size:0.85rem; padding:1rem 0;">
+          Add appliances on the Dashboard to get personalised tips.
+        </div>
+      </div>
+    </div>
+
+    <!-- General tips -->
+    <div class="table-card">
+      <h2 class="section-title" style="margin-bottom:1rem;">General Best Practices</h2>
+      <div class="general-tip"><span>⭐</span> Use BEE 5-star rated appliances — they consume 20–40% less electricity than lower-rated ones.</div>
+      <div class="general-tip"><span>🌙</span> Run washing machines and dishwashers at night during off-peak hours to reduce grid load.</div>
+      <div class="general-tip"><span>🌡</span> Set your AC to 24–26°C. Every 1°C lower increases energy consumption by about 6%.</div>
+      <div class="general-tip"><span>🔌</span> Unplug chargers and electronics when not in use — standby power can account for 5–10% of your bill.</div>
+      <div class="general-tip"><span>🪟</span> Use natural ventilation and ceiling fans before switching on the AC.</div>
+      <div class="general-tip"><span>💡</span> Replace all incandescent and CFL bulbs with LED. They use 75% less energy and last 25x longer.</div>
+      <div class="general-tip"><span>🧊</span> Keep the fridge at 3–5°C and don't place hot food directly inside. Clean the coils annually.</div>
+      <div class="general-tip"><span>☀</span> Consider rooftop solar panels. In Andhra Pradesh, a 1 kWp system generates ~1400 units/year.</div>
+    </div>
+  </main>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/calculator.js"></script>
+  <script>
+    const INDIA_CO2_FACTOR = 0.82; // kg CO2 per kWh
+    const NATIONAL_AVG_KWH = 90;
+
+    function renderTips() {
+      const appliances = getAppliances();
+      const { total, breakdown } = calcTotalKwh(appliances);
+
+      // Carbon footprint
+      const co2    = total * INDIA_CO2_FACTOR;
+      const trees  = co2 / 21;
+      document.getElementById("co2Val").innerHTML   = `${co2.toFixed(1)} <span class="stat-unit">kg</span>`;
+      document.getElementById("treesVal").innerHTML = `${trees.toFixed(1)} <span class="stat-unit">trees/yr</span>`;
+
+      // vs national average
+      if (total > 0) {
+        const diff = total - NATIONAL_AVG_KWH;
+        const pct  = Math.abs((diff / NATIONAL_AVG_KWH) * 100).toFixed(0);
+        const el   = document.getElementById("vsAvgVal");
+        if (diff > 0) {
+          el.innerHTML = `<span style="color:var(--red)">▲ ${pct}% more</span>`;
+        } else {
+          el.innerHTML = `<span style="color:var(--green)">▼ ${pct}% less</span>`;
+        }
+      }
+
+      // Personalised tips
+      const tipsEl = document.getElementById("personalTips");
+      if (appliances.length === 0) {
+        tipsEl.innerHTML = `<div style="color:var(--text3); font-size:0.85rem; padding:1rem 0;">Add appliances on the Dashboard to get personalised tips.</div>`;
+        return;
+      }
+      const tips = generateTips(breakdown, total);
+      tipsEl.innerHTML = "";
+      tips.forEach(tip => {
+        const div = document.createElement("div");
+        div.className = `tip-card tip-level-${tip.level}`;
+        div.innerHTML = `
+          <div class="tip-icon">${tip.icon}</div>
+          <div>
+            <div class="tip-badge badge-${tip.level}">${tip.level} priority</div>
+            <div class="tip-text">${tip.text}</div>
+          </div>
+        `;
+        tipsEl.appendChild(div);
+      });
+    }
+
+    renderTips();
+  </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Appliances — EnergyIQ</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+    .preset-btn {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.6rem 0.75rem;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s;
+      color: var(--text);
+    }
+    .preset-btn:hover { border-color: var(--accent); background: var(--bg2); }
+    .preset-name { font-size: 0.8rem; font-weight: 500; display: block; margin-bottom: 2px; }
+    .preset-meta { font-size: 0.7rem; color: var(--text3); font-family: var(--font-mono); }
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <div class="logo"><span class="logo-icon">⚡</span><span class="logo-text">EnergyIQ</span></div>
+    <ul class="nav-links">
+      <li><a href="../index.html"   class="nav-link"><span class="nav-icon">◈</span> Dashboard</a></li>
+      <li><a href="appliances.html" class="nav-link active"><span class="nav-icon">◉</span> Appliances</a></li>
+      <li><a href="billing.html"    class="nav-link"><span class="nav-icon">◎</span> Bill Calculator</a></li>
+      <li><a href="history.html"    class="nav-link"><span class="nav-icon">◌</span> History</a></li>
+      <li><a href="tips.html"       class="nav-link"><span class="nav-icon">◍</span> Energy Tips</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" onclick="toggleTheme()">☀ / ☾</button>
+    </div>
+  </nav>
+
+  <header class="mobile-header">
+    <span class="logo-text">⚡ EnergyIQ</span>
+    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+  </header>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../index.html">◈ Dashboard</a>
+    <a href="appliances.html">◉ Appliances</a>
+    <a href="billing.html">◎ Bill Calculator</a>
+    <a href="history.html">◌ History</a>
+    <a href="tips.html">◍ Energy Tips</a>
+  </div>
+
+  <main class="main-content inner-page">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Appliances</h1>
+        <p class="page-subtitle">Manage all your tracked appliances</p>
+      </div>
+    </div>
+
+    <!-- Quick Presets -->
+    <div class="table-card" style="margin-bottom:1.5rem;">
+      <h2 class="section-title" style="margin-bottom:0.5rem;">Quick Add from Presets</h2>
+      <p class="section-subtitle">Click any appliance to add it with typical values</p>
+      <div class="preset-grid" id="presetGrid"></div>
+    </div>
+
+    <!-- Manual Add Form -->
+    <div class="quick-add-card">
+      <h2 class="section-title">Add Custom Appliance</h2>
+      <p class="section-subtitle">Enter exact values from your appliance's label or manual</p>
+      <div class="quick-form">
+        <input type="text"   id="appName"  placeholder="Appliance name"     class="form-input"/>
+        <input type="number" id="appWatts" placeholder="Watts"              class="form-input" min="1"/>
+        <input type="number" id="appHours" placeholder="Hours/day"          class="form-input" min="0.1" max="24" step="0.5"/>
+        <input type="number" id="appQty"   placeholder="Qty" value="1"      class="form-input" min="1"/>
+        <button class="btn-add" onclick="doAddAppliance()">+ Add</button>
+      </div>
+      <div id="addMsg" class="form-message"></div>
+    </div>
+
+    <!-- Appliance Table -->
+    <div class="table-card">
+      <div class="table-header">
+        <h2 class="section-title">All Appliances <span id="countBadge" style="color:var(--text3); font-weight:400; font-size:0.85rem;"></span></h2>
+        <button class="btn-clear" onclick="doDeleteAll()">Delete All</button>
+      </div>
+      <div class="table-scroll">
+        <table class="appliance-table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Watts</th><th>Hours/Day</th><th>Qty</th>
+              <th>kWh/Month</th><th>Cost/Month</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr class="empty-row" id="emptyRow"><td colspan="7">No appliances yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/calculator.js"></script>
+  <script>
+    const PRESETS = [
+      { name: "Ceiling Fan",       watts: 75,   hours: 8  },
+      { name: "LED Bulb",          watts: 9,    hours: 6  },
+      { name: "Tube Light",        watts: 40,   hours: 8  },
+      { name: "Refrigerator",      watts: 150,  hours: 24 },
+      { name: "Air Conditioner",   watts: 1500, hours: 8  },
+      { name: "Washing Machine",   watts: 500,  hours: 1  },
+      { name: "Television (32\")", watts: 80,   hours: 5  },
+      { name: "Laptop",            watts: 65,   hours: 8  },
+      { name: "Desktop PC",        watts: 300,  hours: 6  },
+      { name: "Water Heater",      watts: 2000, hours: 0.5},
+      { name: "Microwave",         watts: 1000, hours: 0.3},
+      { name: "Iron Box",          watts: 1000, hours: 0.5},
+      { name: "Mixer/Grinder",     watts: 750,  hours: 0.25},
+      { name: "Water Pump",        watts: 750,  hours: 2  },
+    ];
+
+    function renderPresets() {
+      const grid = document.getElementById("presetGrid");
+      grid.innerHTML = "";
+      PRESETS.forEach(p => {
+        const kwh = calcApplianceKwh(p.watts, p.hours, 1).toFixed(1);
+        const btn = document.createElement("button");
+        btn.className = "preset-btn";
+        btn.innerHTML = `<span class="preset-name">${p.name}</span><span class="preset-meta">${p.watts}W · ${p.hours}h/day · ${kwh} kWh/mo</span>`;
+        btn.onclick = () => {
+          addAppliance(p.name, p.watts, p.hours, 1);
+          renderTable();
+          showMsg("addMsg", `✔ ${p.name} added!`, false);
+        };
+        grid.appendChild(btn);
+      });
+    }
+
+    function renderTable() {
+      const appliances = getAppliances();
+      const settings   = getSettings();
+      const slabs      = TARIFFS[settings.state] || TARIFFS["Andhra Pradesh"];
+      const { total, breakdown } = calcTotalKwh(appliances);
+      const tbody  = document.getElementById("tableBody");
+      const emptyRow = document.getElementById("emptyRow");
+
+      document.getElementById("countBadge").textContent =
+        appliances.length > 0 ? `(${appliances.length})` : "";
+
+      Array.from(tbody.querySelectorAll("tr:not(#emptyRow)")).forEach(r => r.remove());
+
+      if (appliances.length === 0) { emptyRow.style.display = ""; return; }
+      emptyRow.style.display = "none";
+
+      breakdown.forEach(a => {
+        const monthlyCost = calcBill(a.kwh, slabs);
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>${a.name}</strong></td>
+          <td>${a.watts}W</td>
+          <td>${a.hours}h</td>
+          <td>${a.qty}</td>
+          <td class="kwh-cell">${a.kwh.toFixed(1)}</td>
+          <td>₹${monthlyCost.toFixed(0)}</td>
+          <td><button class="btn-delete" onclick="doDelete(${a.id})">✕</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function doAddAppliance() {
+      const name  = document.getElementById("appName").value.trim();
+      const watts = parseFloat(document.getElementById("appWatts").value);
+      const hours = parseFloat(document.getElementById("appHours").value);
+      const qty   = parseInt(document.getElementById("appQty").value) || 1;
+      if (!name)              { showMsg("addMsg", "Enter appliance name.", true); return; }
+      if (!watts || watts<=0) { showMsg("addMsg", "Enter valid wattage.", true); return; }
+      if (!hours || hours<=0 || hours>24) { showMsg("addMsg", "Hours must be 0.1–24.", true); return; }
+      addAppliance(name, watts, hours, qty);
+      showMsg("addMsg", `✔ ${name} added!`, false);
+      document.getElementById("appName").value  = "";
+      document.getElementById("appWatts").value = "";
+      document.getElementById("appHours").value = "";
+      document.getElementById("appQty").value   = "1";
+      renderTable();
+    }
+
+    function doDelete(id) { deleteAppliance(id); renderTable(); }
+    function doDeleteAll() {
+      if (confirm("Delete all appliances?")) { clearAppliances(); renderTable(); }
+    }
+
+    function showMsg(id, text, isErr) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className   = "form-message" + (isErr ? " error" : "");
+      setTimeout(() => el.textContent = "", 3000);
+    }
+
+    renderPresets();
+    renderTable();
+  </script>
+</body>
+</html>

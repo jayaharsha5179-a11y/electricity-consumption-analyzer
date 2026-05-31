@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bill Calculator — EnergyIQ</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <nav class="sidebar">
+    <div class="logo"><span class="logo-icon">⚡</span><span class="logo-text">EnergyIQ</span></div>
+    <ul class="nav-links">
+      <li><a href="../index.html"      class="nav-link"><span class="nav-icon">◈</span> Dashboard</a></li>
+      <li><a href="appliances.html"    class="nav-link"><span class="nav-icon">◉</span> Appliances</a></li>
+      <li><a href="billing.html"       class="nav-link active"><span class="nav-icon">◎</span> Bill Calculator</a></li>
+      <li><a href="history.html"       class="nav-link"><span class="nav-icon">◌</span> History</a></li>
+      <li><a href="tips.html"          class="nav-link"><span class="nav-icon">◍</span> Energy Tips</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" onclick="toggleTheme()">☀ / ☾</button>
+    </div>
+  </nav>
+
+  <header class="mobile-header">
+    <span class="logo-text">⚡ EnergyIQ</span>
+    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+  </header>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="../index.html">◈ Dashboard</a>
+    <a href="appliances.html">◉ Appliances</a>
+    <a href="billing.html">◎ Bill Calculator</a>
+    <a href="history.html">◌ History</a>
+    <a href="tips.html">◍ Energy Tips</a>
+  </div>
+
+  <main class="main-content inner-page">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Bill Calculator</h1>
+        <p class="page-subtitle">Slab-based tariff breakdown for your state</p>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+
+      <!-- Left: Inputs -->
+      <div>
+        <div class="table-card" style="margin-bottom:1rem;">
+          <h2 class="section-title" style="margin-bottom:1rem;">Calculate Your Bill</h2>
+
+          <div class="form-group">
+            <label class="form-label">State / EB Board</label>
+            <select class="form-select" id="stateSelect" onchange="onStateChange()">
+              <option>Andhra Pradesh</option>
+              <option>Telangana</option>
+              <option>Tamil Nadu</option>
+              <option>Karnataka</option>
+              <option>Maharashtra</option>
+              <option>Delhi</option>
+              <option>Gujarat</option>
+              <option>West Bengal</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Units Consumed (kWh)</label>
+            <input type="number" id="unitsInput" class="form-input" placeholder="e.g. 250"
+              min="0" oninput="calculateBill()"/>
+          </div>
+
+          <div class="info-box" id="tariffInfo">Select a state to see its tariff slabs.</div>
+
+          <button class="btn-primary" onclick="saveCurrentMonth()" style="width:100%;margin-top:0.5rem;">
+            💾 Save as This Month's Reading
+          </button>
+          <div id="saveMsg" class="form-message"></div>
+        </div>
+      </div>
+
+      <!-- Right: Result -->
+      <div>
+        <div class="stats-grid" style="grid-template-columns:1fr 1fr; margin-bottom:1rem;">
+          <div class="stat-card">
+            <div class="stat-label">Total Units</div>
+            <div class="stat-value" id="resultUnits">0 <span class="stat-unit">kWh</span></div>
+          </div>
+          <div class="stat-card highlight-card">
+            <div class="stat-label">Estimated Bill</div>
+            <div class="stat-value" id="resultBill">₹0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg Rate</div>
+            <div class="stat-value" id="resultAvgRate">₹0<span class="stat-unit">/kWh</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Daily Cost</div>
+            <div class="stat-value" id="resultDailyCost">₹0</div>
+          </div>
+        </div>
+
+        <!-- Slab Breakdown Table -->
+        <div class="table-card">
+          <h2 class="section-title" style="margin-bottom:1rem;">Slab-wise Breakdown</h2>
+          <div class="table-scroll">
+            <table class="appliance-table">
+              <thead>
+                <tr>
+                  <th>Slab</th>
+                  <th>Units</th>
+                  <th>Rate (₹/kWh)</th>
+                  <th>Amount (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="slabTableBody">
+                <tr class="empty-row"><td colspan="4">Enter units above to see slab breakdown</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/calculator.js"></script>
+  <script>
+    function onStateChange() {
+      const state = document.getElementById("stateSelect").value;
+      const settings = getSettings();
+      settings.state = state;
+      saveSettings(settings);
+      showTariffInfo(state);
+      calculateBill();
+    }
+
+    function showTariffInfo(state) {
+      const slabs = TARIFFS[state];
+      if (!slabs) return;
+      const lines = slabs.map(s =>
+        `${s.upto === Infinity ? "Above prev" : "0–"+s.upto+" units"}: ₹${s.rate}/kWh`
+      );
+      document.getElementById("tariffInfo").innerHTML =
+        `<strong>${state} tariff slabs:</strong><br>${lines.join(" &nbsp;·&nbsp; ")}`;
+    }
+
+    function calculateBill() {
+      const state = document.getElementById("stateSelect").value;
+      const units = parseFloat(document.getElementById("unitsInput").value) || 0;
+      const slabs = TARIFFS[state];
+      if (!slabs) return;
+
+      const bill = calcBill(units, slabs);
+      const avgRate = units > 0 ? bill / units : 0;
+      const daily   = bill / 30;
+
+      document.getElementById("resultUnits").innerHTML = `${units} <span class="stat-unit">kWh</span>`;
+      document.getElementById("resultBill").textContent = "₹" + bill.toFixed(0);
+      document.getElementById("resultAvgRate").innerHTML = `₹${avgRate.toFixed(2)}<span class="stat-unit">/kWh</span>`;
+      document.getElementById("resultDailyCost").textContent = "₹" + daily.toFixed(1);
+
+      // Slab breakdown table
+      const breakdown = getSlabBreakdown(units, slabs);
+      const tbody = document.getElementById("slabTableBody");
+      tbody.innerHTML = "";
+
+      if (breakdown.length === 0 || units === 0) {
+        tbody.innerHTML = `<tr class="empty-row"><td colspan="4">Enter units above to see slab breakdown</td></tr>`;
+        return;
+      }
+
+      let runningTotal = 0;
+      breakdown.forEach(row => {
+        runningTotal += row.cost;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.label}</td>
+          <td>${row.units.toFixed(1)}</td>
+          <td>₹${row.rate.toFixed(2)}</td>
+          <td class="kwh-cell">₹${row.cost.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const totalRow = document.createElement("tr");
+      totalRow.style.borderTop = "2px solid var(--accent)";
+      totalRow.innerHTML = `
+        <td colspan="3"><strong>Total</strong></td>
+        <td class="kwh-cell"><strong>₹${bill.toFixed(2)}</strong></td>
+      `;
+      tbody.appendChild(totalRow);
+    }
+
+    function saveCurrentMonth() {
+      const units = parseFloat(document.getElementById("unitsInput").value) || 0;
+      const state = document.getElementById("stateSelect").value;
+      const slabs = TARIFFS[state];
+      const msg   = document.getElementById("saveMsg");
+      if (units <= 0) { msg.textContent = "Enter units first."; msg.className = "form-message error"; return; }
+      const bill = calcBill(units, slabs);
+      saveMonthToHistory(getCurrentMonthLabel(), units, bill);
+      msg.textContent = `✔ Saved ${units} kWh for ${getCurrentMonthLabel()}`;
+      msg.className = "form-message";
+      setTimeout(() => msg.textContent = "", 3000);
+    }
+
+    // Init
+    const saved = getSettings();
+    document.getElementById("stateSelect").value = saved.state;
+    showTariffInfo(saved.state);
+
+    // Pre-fill units from current appliance total
+    const { total } = calcTotalKwh(getAppliances());
+    if (total > 0) {
+      document.getElementById("unitsInput").value = total.toFixed(1);
+      calculateBill();
+    }
+  </script>
+</body>
+</html>
