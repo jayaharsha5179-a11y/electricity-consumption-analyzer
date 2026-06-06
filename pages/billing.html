@@ -9,29 +9,73 @@
 </head>
 <body>
   <nav class="sidebar">
-    <div class="logo"><span class="logo-icon">⚡</span><span class="logo-text">EnergyIQ</span></div>
-    <ul class="nav-links">
-      <li><a href="../index.html"      class="nav-link"><span class="nav-icon">◈</span> Dashboard</a></li>
-      <li><a href="appliances.html"    class="nav-link"><span class="nav-icon">◉</span> Appliances</a></li>
-      <li><a href="billing.html"       class="nav-link active"><span class="nav-icon">◎</span> Bill Calculator</a></li>
-      <li><a href="history.html"       class="nav-link"><span class="nav-icon">◌</span> History</a></li>
-      <li><a href="tips.html"          class="nav-link"><span class="nav-icon">◍</span> Energy Tips</a></li>
-    </ul>
+      <div class="logo">
+        <i data-lucide="zap"></i>
+        <span class="logo-text">EnergyIQ</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="../index.html" class="nav-link">
+              <i data-lucide="layout-dashboard" class="nav-icon"></i>
+              Dashboard
+            </a></li>
+        <li><a href="appliances.html" class="nav-link">
+              <i data-lucide="plug-zap" class="nav-icon"></i>
+              Appliances
+            </a></li>
+        <li><a href="billing.html" class="nav-link active">
+              <i data-lucide="calculator" class="nav-icon"></i>
+              Bill Calculator
+            </a></li>
+        <li><a href="history.html" class="nav-link">
+              <i data-lucide="chart-column" class="nav-icon"></i>
+              History
+            </a></li>
+        <li><a href="tips.html" class="nav-link">
+              <i data-lucide="lightbulb" class="nav-icon"></i>
+              Energy Tips
+            </a></li>
+      </ul>
     <div class="sidebar-footer">
-      <button class="theme-toggle" onclick="toggleTheme()">☀ / ☾</button>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <i data-lucide="sun-moon"></i>
+      </button>
     </div>
   </nav>
 
   <header class="mobile-header">
-    <span class="logo-text">⚡ EnergyIQ</span>
-    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+    <div class="mobile-logo">
+      <i data-lucide="zap"></i>
+      <span class="logo-text">EnergyIQ</span>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()">
+      <i data-lucide="menu"></i>
+    </button>
   </header>
   <div class="mobile-nav" id="mobileNav">
-    <a href="../index.html">◈ Dashboard</a>
-    <a href="appliances.html">◉ Appliances</a>
-    <a href="billing.html">◎ Bill Calculator</a>
-    <a href="history.html">◌ History</a>
-    <a href="tips.html">◍ Energy Tips</a>
+    <a href="../index.html" class="nav-link">
+      <i data-lucide="layout-dashboard" class="nav-icon"></i>
+      Dashboard
+    </a>
+
+    <a href="appliances.html" class="nav-link">
+      <i data-lucide="plug-zap" class="nav-icon"></i>
+      Appliances
+    </a>
+
+    <a href="billing.html" class="nav-link active">
+      <i data-lucide="calculator" class="nav-icon"></i>
+      Bill Calculator
+    </a>
+
+    <a href="history.html" class="nav-link">
+      <i data-lucide="chart-column" class="nav-icon"></i>
+      History
+    </a>
+
+    <a href="tips.html" class="nav-link">
+      <i data-lucide="lightbulb" class="nav-icon"></i>
+      Energy Tips
+    </a>
   </div>
 
   <main class="main-content inner-page">
@@ -72,7 +116,8 @@
           <div class="info-box" id="tariffInfo">Select a state to see its tariff slabs.</div>
 
           <button class="btn-primary" onclick="saveCurrentMonth()" style="width:100%;margin-top:0.5rem;">
-            💾 Save as This Month's Reading
+            <i data-lucide="save"></i>
+            Save as This Month's Reading
           </button>
           <div id="saveMsg" class="form-message"></div>
         </div>
@@ -82,18 +127,22 @@
       <div>
         <div class="stats-grid" style="grid-template-columns:1fr 1fr; margin-bottom:1rem;">
           <div class="stat-card">
+            <i data-lucide="activity"></i>
             <div class="stat-label">Total Units</div>
             <div class="stat-value" id="resultUnits">0 <span class="stat-unit">kWh</span></div>
           </div>
           <div class="stat-card highlight-card">
+            <i data-lucide="indian-rupee"></i>
             <div class="stat-label">Estimated Bill</div>
             <div class="stat-value" id="resultBill">₹0</div>
           </div>
           <div class="stat-card">
+            <i data-lucide="badge-indian-rupee"></i>
             <div class="stat-label">Avg Rate</div>
             <div class="stat-value" id="resultAvgRate">₹0<span class="stat-unit">/kWh</span></div>
           </div>
           <div class="stat-card">
+            <i data-lucide="calendar-days"></i>
             <div class="stat-label">Daily Cost</div>
             <div class="stat-value" id="resultDailyCost">₹0</div>
           </div>
@@ -215,6 +264,10 @@
       document.getElementById("unitsInput").value = total.toFixed(1);
       calculateBill();
     }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
   </script>
 </body>
 </html>

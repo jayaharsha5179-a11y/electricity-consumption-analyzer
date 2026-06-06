@@ -479,3 +479,77 @@ canvas { max-height: 220px; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .quick-form { grid-template-columns: 1fr 1fr; }
 }
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
+.logo svg {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+}
+
+.section-title svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.chart-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.stat-card svg {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.mobile-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.stat-card:hover,
+.chart-card:hover,
+.table-card:hover {
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+.stat-card,
+.chart-card,
+.table-card {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.hero-card {
+  background: linear-gradient(
+    135deg,
+    var(--bg2),
+    var(--bg3)
+  );
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-card p {
+  margin-top: 0.75rem;
+  color: var(--text2);
+  line-height: 1.6;
+}

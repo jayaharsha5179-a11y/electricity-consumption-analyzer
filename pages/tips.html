@@ -52,29 +52,59 @@
 </head>
 <body>
   <nav class="sidebar">
-    <div class="logo"><span class="logo-icon">⚡</span><span class="logo-text">EnergyIQ</span></div>
+    <div class="logo">
+      <i data-lucide="zap"></i>
+      <span class="logo-text">EnergyIQ</span>
+    </div>
     <ul class="nav-links">
-      <li><a href="../index.html"   class="nav-link"><span class="nav-icon">◈</span> Dashboard</a></li>
-      <li><a href="appliances.html" class="nav-link"><span class="nav-icon">◉</span> Appliances</a></li>
-      <li><a href="billing.html"    class="nav-link"><span class="nav-icon">◎</span> Bill Calculator</a></li>
-      <li><a href="history.html"    class="nav-link"><span class="nav-icon">◌</span> History</a></li>
-      <li><a href="tips.html"       class="nav-link active"><span class="nav-icon">◍</span> Energy Tips</a></li>
+      <li><a href="../index.html"   class="nav-link"><i data-lucide="layout-dashboard" class="nav-icon"></i>Dashboard</a></li>
+      <li><a href="appliances.html" class="nav-link"><i data-lucide="plug-zap" class="nav-icon"></i>Appliances</a></li>
+      <li><a href="billing.html"    class="nav-link"><i data-lucide="calculator" class="nav-icon"></i>Bill Calculator</a></li>
+      <li><a href="history.html"    class="nav-link"><i data-lucide="chart-column" class="nav-icon"></i>History</a></li>
+      <li><a href="tips.html"       class="nav-link active"><i data-lucide="lightbulb" class="nav-icon"></i>Energy Tips</a></li>
     </ul>
     <div class="sidebar-footer">
-      <button class="theme-toggle" onclick="toggleTheme()">☀ / ☾</button>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <i data-lucide="sun-moon"></i>
+        <span class="logo-text">Theme</span>
+      </button>
     </div>
   </nav>
 
   <header class="mobile-header">
-    <span class="logo-text">⚡ EnergyIQ</span>
-    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+    <div class="mobile-logo">
+      <i data-lucide="zap"></i>
+      <span class="logo-text">EnergyIQ</span>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()">
+      <i data-lucide="menu"></i>
+    </button>
   </header>
   <div class="mobile-nav" id="mobileNav">
-    <a href="../index.html">◈ Dashboard</a>
-    <a href="appliances.html">◉ Appliances</a>
-    <a href="billing.html">◎ Bill Calculator</a>
-    <a href="history.html">◌ History</a>
-    <a href="tips.html">◍ Energy Tips</a>
+    <a href="../index.html" class="nav-link">
+      <i data-lucide="layout-dashboard" class="nav-icon"></i>
+      Dashboard
+    </a>
+
+    <a href="appliances.html" class="nav-link">
+      <i data-lucide="plug-zap" class="nav-icon"></i>
+      Appliances
+    </a>
+
+    <a href="billing.html" class="nav-link">
+      <i data-lucide="calculator" class="nav-icon"></i>
+      Bill Calculator
+    </a>
+
+    <a href="history.html" class="nav-link">
+      <i data-lucide="chart-column" class="nav-icon"></i>
+      History
+    </a>
+
+    <a href="tips.html" class="nav-link active">
+      <i data-lucide="lightbulb" class="nav-icon"></i>
+      Energy Tips
+    </a>
   </div>
 
   <main class="main-content inner-page">
@@ -88,16 +118,19 @@
     <!-- Carbon footprint card -->
     <div class="stats-grid" style="margin-bottom:1.5rem;">
       <div class="stat-card">
+        <i data-lucide="leaf"></i>
         <div class="stat-label">Monthly CO₂</div>
         <div class="stat-value" id="co2Val">0 <span class="stat-unit">kg</span></div>
         <div class="stat-note">at 0.82 kg CO₂ per kWh (India avg)</div>
       </div>
       <div class="stat-card">
+        <i data-lucide="trees"></i>
         <div class="stat-label">Trees to offset</div>
         <div class="stat-value" id="treesVal">0 <span class="stat-unit">trees/yr</span></div>
         <div class="stat-note">1 tree absorbs ~21 kg CO₂/year</div>
       </div>
       <div class="stat-card">
+        <i data-lucide="bar-chart-3"></i>
         <div class="stat-label">vs National Avg</div>
         <div class="stat-value" id="vsAvgVal">—</div>
         <div class="stat-note" id="vsAvgNote">Avg Indian household: ~90 kWh/month</div>
@@ -179,6 +212,10 @@
     }
 
     renderTips();
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
   </script>
 </body>
 </html>

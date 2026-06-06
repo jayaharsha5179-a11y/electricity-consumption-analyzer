@@ -13,32 +13,87 @@
   <!-- SIDEBAR NAV -->
   <nav class="sidebar">
     <div class="logo">
-      <span class="logo-icon">⚡</span>
+      <i data-lucide="zap"></i>
       <span class="logo-text">EnergyIQ</span>
     </div>
     <ul class="nav-links">
-      <li><a href="index.html" class="nav-link active"><span class="nav-icon">◈</span> Dashboard</a></li>
-      <li><a href="pages/appliances.html" class="nav-link"><span class="nav-icon">◉</span> Appliances</a></li>
-      <li><a href="pages/billing.html" class="nav-link"><span class="nav-icon">◎</span> Bill Calculator</a></li>
-      <li><a href="pages/history.html" class="nav-link"><span class="nav-icon">◌</span> History</a></li>
-      <li><a href="pages/tips.html" class="nav-link"><span class="nav-icon">◍</span> Energy Tips</a></li>
+      <li>
+        <a href="index.html" class="nav-link active">
+          <i data-lucide="layout-dashboard" class="nav-icon"></i>
+          Dashboard
+        </a>
+      </li>
+
+      <li>
+        <a href="pages/appliances.html" class="nav-link">
+          <i data-lucide="plug-zap" class="nav-icon"></i>
+          Appliances
+        </a>
+      </li>
+
+      <li>
+        <a href="pages/billing.html" class="nav-link">
+          <i data-lucide="calculator" class="nav-icon"></i>
+          Bill Calculator
+        </a>
+      </li>
+
+      <li>
+        <a href="pages/history.html" class="nav-link">
+          <i data-lucide="chart-column" class="nav-icon"></i>
+          History
+        </a>
+      </li>
+
+      <li>
+        <a href="pages/tips.html" class="nav-link">
+          <i data-lucide="lightbulb" class="nav-icon"></i>
+          Energy Tips
+        </a>
+      </li>
     </ul>
     <div class="sidebar-footer">
-      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">☀ / ☾</button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">
+        <i data-lucide="sun-moon"></i>
+      </button>
     </div>
   </nav>
 
   <!-- MOBILE TOP NAV -->
   <header class="mobile-header">
-    <span class="logo-text">⚡ EnergyIQ</span>
-    <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+    <div class="mobile-logo">
+      <i data-lucide="zap"></i>
+      <span class="logo-text">EnergyIQ</span>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()">
+      <i data-lucide="menu"></i>
+    </button>
   </header>
   <div class="mobile-nav" id="mobileNav">
-    <a href="index.html">◈ Dashboard</a>
-    <a href="pages/appliances.html">◉ Appliances</a>
-    <a href="pages/billing.html">◎ Bill Calculator</a>
-    <a href="pages/history.html">◌ History</a>
-    <a href="pages/tips.html">◍ Energy Tips</a>
+  <a href="index.html" class="nav-link active">
+    <i data-lucide="layout-dashboard" class="nav-icon"></i>
+    Dashboard
+  </a>
+
+  <a href="pages/appliances.html" class="nav-link">
+    <i data-lucide="plug-zap" class="nav-icon"></i>
+    Appliances
+  </a>
+
+  <a href="pages/billing.html" class="nav-link">
+    <i data-lucide="calculator" class="nav-icon"></i>
+    Bill Calculator
+  </a>
+
+  <a href="pages/history.html" class="nav-link">
+    <i data-lucide="chart-column" class="nav-icon"></i>
+    History
+  </a>
+
+  <a href="pages/tips.html" class="nav-link">
+    <i data-lucide="lightbulb" class="nav-icon"></i>
+    Energy Tips
+  </a>
   </div>
 
   <!-- MAIN CONTENT -->
@@ -51,25 +106,40 @@
       </div>
       <div class="current-month-badge" id="currentMonthBadge">— kWh this month</div>
     </div>
+  <div class="hero-card">
+    <div class="logo">
+      <i data-lucide="zap"></i>
+      <span class="logo-text">Welcome to EnergyIQ</span>
+    </div>
+    <p>
+      Monitor electricity consumption,
+      forecast future usage,
+      and reduce your monthly bills.
+    </p>
+  </div>
 
     <!-- STAT CARDS -->
     <div class="stats-grid">
       <div class="stat-card">
+        <i data-lucide="activity"></i>
         <div class="stat-label">Total Consumption</div>
         <div class="stat-value" id="totalKwh">0 <span class="stat-unit">kWh</span></div>
         <div class="stat-note" id="kwhNote">Add appliances to calculate</div>
       </div>
       <div class="stat-card">
+        <i data-lucide="indian-rupee"></i>
         <div class="stat-label">Estimated Bill</div>
         <div class="stat-value" id="totalBill">₹0</div>
         <div class="stat-note" id="billNote">Based on AP EB tariff</div>
       </div>
       <div class="stat-card">
+        <i data-lucide="calendar-days"></i>
         <div class="stat-label">Daily Average</div>
         <div class="stat-value" id="dailyAvg">0 <span class="stat-unit">kWh</span></div>
         <div class="stat-note">Per day this month</div>
       </div>
       <div class="stat-card highlight-card">
+        <i data-lucide="cpu"></i>
         <div class="stat-label">Appliances Tracked</div>
         <div class="stat-value" id="applianceCount">0</div>
         <div class="stat-note" id="topAppliance">None added yet</div>
@@ -80,6 +150,7 @@
     <div class="charts-row">
       <div class="chart-card" id="pieChartCard">
         <div class="chart-card-header">
+          <i data-lucide="pie-chart"></i>
           <h2 class="chart-title">Usage by Appliance</h2>
           <span class="chart-badge">This month</span>
         </div>
@@ -91,6 +162,7 @@
 
       <div class="chart-card">
         <div class="chart-card-header">
+          <i data-lucide="trending-up"></i>
           <h2 class="chart-title">Monthly Trend</h2>
           <span class="chart-badge">Last 6 months</span>
         </div>
@@ -103,14 +175,17 @@
 
     <!-- QUICK ADD APPLIANCE -->
     <div class="quick-add-card">
-      <h2 class="section-title">Quick Add Appliance</h2>
+      <div class="section-header">
+        <i data-lucide="plus-circle"></i>
+        <h2 class="section-title">Quick Add Appliance</h2>
+      </div>
       <p class="section-subtitle">Add an appliance to instantly update your dashboard</p>
       <div class="quick-form">
         <input type="text" id="appName" placeholder="Appliance name (e.g. Ceiling Fan)" class="form-input" />
         <input type="number" id="appWatts" placeholder="Watts (e.g. 75)" class="form-input" min="1" />
         <input type="number" id="appHours" placeholder="Hours/day (e.g. 8)" class="form-input" min="0.1" max="24" step="0.5" />
         <input type="number" id="appQty" placeholder="Quantity (e.g. 3)" class="form-input" min="1" value="1" />
-        <button class="btn-add" onclick="quickAddAppliance()">+ Add</button>
+        <button class="btn-add" onclick="quickAddAppliance()"><i data-lucide="plus"></i>Add</button>
       </div>
       <div id="quickAddMsg" class="form-message"></div>
     </div>
@@ -149,5 +224,9 @@
   <script src="js/calculator.js"></script>
   <script src="js/charts.js"></script>
   <script src="js/app.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>
